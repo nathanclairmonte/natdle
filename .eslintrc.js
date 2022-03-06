@@ -1,34 +1,29 @@
 module.exports = {
-    "env": {
-        "es2021": true,
-        "node": true
+    env: {
+        es2021: true,
+        node: true
     },
-    "extends": [
+    extends: [
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier",
-        "prettier/@typescript-eslint",
-        "prettier/react"
+        "prettier"
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
         },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+        ecmaVersion: "latest",
+        sourceType: "module"
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
+    plugins: ["react", "@typescript-eslint"],
     settings: {
         react: {
             version: "detect"
         }
     },
-    "rules": {
+    rules: {
         "@typescript-eslint/no-unused-vars": "off"
     }
-}
+};
