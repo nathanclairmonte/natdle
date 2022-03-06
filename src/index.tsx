@@ -1,14 +1,25 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { Home, Game } from "@screens";
+import AppLoading from "expo-app-loading";
+import { useFonts, Amiko_400Regular } from "@expo-google-fonts/amiko";
 
 export default function App() {
+    const [fontLoaded] = useFonts({
+        Amiko_400Regular
+    });
+
+    if (!fontLoaded) return <AppLoading />;
+
     return (
         <View style={styles.container}>
-            <Image source={require("@assets/icon.png")} />
-            <Home />
-            <Game />
+            <Text
+                style={{
+                    fontSize: 25,
+                    fontFamily: "Amiko_400Regular"
+                }}
+            >
+                SLATTTTTTTT
+            </Text>
         </View>
     );
 }
