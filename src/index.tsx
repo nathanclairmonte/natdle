@@ -1,25 +1,34 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import AppLoading from "expo-app-loading";
-import { useFonts, Amiko_400Regular } from "@expo-google-fonts/amiko";
+import {
+    useFonts,
+    Amiko_400Regular,
+    Amiko_600SemiBold,
+    Amiko_700Bold
+} from "@expo-google-fonts/amiko";
+import { AmikoText } from "@components";
 
 export default function App() {
     const [fontLoaded] = useFonts({
-        Amiko_400Regular
+        Amiko_400Regular,
+        Amiko_600SemiBold,
+        Amiko_700Bold
     });
 
     if (!fontLoaded) return <AppLoading />;
 
     return (
         <View style={styles.container}>
-            <Text
-                style={{
-                    fontSize: 25,
-                    fontFamily: "Amiko_400Regular"
+            <AmikoText
+                onPress={() => {
+                    alert(true);
                 }}
+                style={{ fontSize: 25 }}
+                weight="400"
             >
-                SLATTTTTTTT
-            </Text>
+                SLATTTTTTTTTTTT
+            </AmikoText>
         </View>
     );
 }
