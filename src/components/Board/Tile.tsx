@@ -8,29 +8,40 @@ type TileProps = {
     letterIndex: number;
     boardSize: number;
     answer: string;
+    tileColour?: string;
+    textColour?: string;
+    borderWidth?: number;
 };
 
-export default function Tile({ letter, letterIndex, boardSize, answer }: TileProps): ReactElement {
+export default function Tile({
+    letter,
+    letterIndex,
+    boardSize,
+    answer,
+    tileColour,
+    textColour,
+    borderWidth
+}: TileProps): ReactElement {
     // cast the current letter and Natdle answer to uppercase
     letter = letter.toUpperCase();
     answer = answer.toUpperCase();
 
-    // set tile colour based on regular wordle rules
-    let tileColour;
-    let bWidth;
-    if (answer[letterIndex] === letter) {
-        tileColour = "#6baa64"; // green
-        bWidth = 0;
-    } else if (answer.includes(letter)) {
-        tileColour = "#c9b457"; // yellow
-        bWidth = 0;
-    } else if (letter == " ") {
-        tileColour = "#fff"; // white (no letter)
-        bWidth = 2;
-    } else {
-        tileColour = "#787c7f"; // grey
-        bWidth = 0;
-    }
+    // // set tile colour based on regular wordle rules
+    // let tileColour;
+    // let bWidth;
+    // if (answer[letterIndex] === letter) {
+    //     tileColour = "#6baa64"; // green
+    //     bWidth = 0;
+    // } else if (answer.includes(letter)) {
+    //     tileColour = "#c9b457"; // yellow
+    //     bWidth = 0;
+    // } else if (letter == " ") {
+    //     tileColour = "#fff"; // white (no letter)
+    //     bWidth = 2;
+    // } else {
+    //     tileColour = "#787c7f"; // grey
+    //     bWidth = 0;
+    // }
 
     return (
         <View
@@ -42,14 +53,14 @@ export default function Tile({ letter, letterIndex, boardSize, answer }: TilePro
                 backgroundColor: tileColour,
                 marginHorizontal: 4,
                 paddingTop: 7,
-                borderWidth: bWidth,
+                borderWidth: borderWidth,
                 borderColor: "#555"
             }}
         >
             <AmikoText
                 style={{
                     fontSize: boardSize / 9,
-                    color: "#fff"
+                    color: textColour
                 }}
             >
                 {letter}

@@ -29,7 +29,7 @@ export default function Board({ state, answer, size }: BoardProps): ReactElement
             }}
         >
             {state.map((cell, index) => {
-                return <BoardRow key={index} word={cell} answer={answer} boardSize={size} />;
+                return <BoardRow key={index} guess={cell} answer={answer} boardSize={size} />;
             })}
         </View>
     );
