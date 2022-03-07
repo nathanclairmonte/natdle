@@ -23,7 +23,10 @@ export default function Board({ state, answer, size }: BoardProps): ReactElement
                 flex: 1,
                 flexDirection: "row",
                 flexWrap: "wrap",
-                alignItems: "center"
+                alignSelf: "center",
+                justifyContent: "center",
+                paddingTop: 23,
+                borderWidth: 2
             }}
         >
             {state.map((cell, index) => {

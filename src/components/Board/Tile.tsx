@@ -37,11 +37,11 @@ export default function Tile({ letter, letterIndex, boardSize, answer }: TilePro
             style={{
                 alignItems: "center",
                 justifyContent: "center",
-                width: boardSize / 5 - 5,
-                height: boardSize / 5 - 5,
+                width: boardSize / 5 - 10,
+                height: boardSize / 5 - 10,
                 backgroundColor: tileColour,
                 marginHorizontal: 4,
-                paddingTop: 8,
+                paddingTop: 5,
                 borderWidth: bWidth,
                 borderColor: "#555"
             }}

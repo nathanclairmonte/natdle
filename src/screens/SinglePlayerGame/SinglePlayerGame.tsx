@@ -10,7 +10,7 @@ export default function SinglePlayerGame(): ReactElement {
                 <Board
                     state={["roate", "grail", "wharf", "sharp", "shard", "     "]}
                     answer="shard"
-                    size={350}
+                    size={370}
                 />
             </SafeAreaView>
         </GradientBackground>

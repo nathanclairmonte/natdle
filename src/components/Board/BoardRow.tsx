@@ -14,8 +14,7 @@ export default function BoardRow({ word, answer, boardSize }: BoardRowProps): Re
         <View
             style={{
                 flexDirection: "row",
-                paddingVertical: 4,
-                marginLeft: 5
+                paddingVertical: 4
             }}
         >
             {word.split("").map((letter, index) => {
