@@ -1,9 +1,11 @@
 import { Text, SafeAreaView } from "react-native";
 import React, { ReactElement } from "react";
 import styles from "./SinglePlayerGame.styles";
-import { GradientBackground, Board } from "@components";
+import { GradientBackground, Board, Keyboard } from "@components";
 
 export default function SinglePlayerGame(): ReactElement {
+    const boardSize = 340;
+
     return (
         <GradientBackground theme="burple">
             <SafeAreaView style={styles.container}>
@@ -24,7 +26,13 @@ export default function SinglePlayerGame(): ReactElement {
                     // answer="beech"
                     state={["adieu", "taste", "snake", "erase", "lease", "     "]}
                     answer="lease"
-                    size={370}
+                    size={boardSize}
+                />
+                <Keyboard
+                    onKeyPressed={(symbol) => {
+                        console.log(symbol);
+                    }}
+                    boardSize={boardSize}
                 />
             </SafeAreaView>
         </GradientBackground>
