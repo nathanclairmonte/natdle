@@ -25,8 +25,7 @@ export default function Board({ state, answer, size }: BoardProps): ReactElement
                 flexWrap: "wrap",
                 alignSelf: "center",
                 justifyContent: "center",
-                paddingTop: 23,
-                borderWidth: 2
+                paddingTop: 23
             }}
         >
             {state.map((cell, index) => {

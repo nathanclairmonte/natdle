@@ -41,14 +41,14 @@ export default function Tile({ letter, letterIndex, boardSize, answer }: TilePro
                 height: boardSize / 5 - 10,
                 backgroundColor: tileColour,
                 marginHorizontal: 4,
-                paddingTop: 5,
+                paddingTop: 7,
                 borderWidth: bWidth,
                 borderColor: "#555"
             }}
         >
             <AmikoText
                 style={{
-                    fontSize: boardSize / 8,
+                    fontSize: boardSize / 9,
                     color: "#fff"
                 }}
             >
