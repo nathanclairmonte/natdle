@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 
 type GradientBackgroundProps = {
     children: ReactNode;
-    theme?: "fav" | "burple" | "spring" | "peach" | "frozen";
+    theme?: "fav" | "burple" | "spring" | "frozen";
 };
 
 const defaultProps = {
@@ -24,8 +24,6 @@ export default function GradientBackground({
     if (theme === "burple") colors = ["#8EC5FC", "#E0C3FC"];
     // spring warmth
     else if (theme === "spring") colors = ["#fad0c4", "#ffd1ff"];
-    // juicy peach
-    else if (theme === "peach") colors = ["#ffecd2", "#fcb69f"];
     // frozen dreams
     else if (theme === "frozen") colors = ["#fdcbf1", "#e6dee9"];
 

@@ -2,9 +2,19 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        paddingTop: 100
+    },
+    logo: {
+        height: 257,
+        maxWidth: "60%",
+        resizeMode: "contain"
+    },
+    buttonList: {
+        marginTop: 45
+    },
+    button: {
+        marginBottom: 16
     }
 });
 
