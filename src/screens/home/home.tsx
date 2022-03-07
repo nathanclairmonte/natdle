@@ -1,6 +1,6 @@
 import { ScrollView, View, Image } from "react-native";
 import React, { ReactElement } from "react";
-import styles from "./home.styles";
+import styles from "./Home.styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackNavigatorParams } from "@config/Navigator";
 import { GradientBackground, MyButton } from "@components";
@@ -15,7 +15,11 @@ export default function Home({ navigation }: HomeProps): ReactElement {
             <ScrollView contentContainerStyle={styles.container}>
                 <Image source={require("@assets/logo.png")} style={styles.logo} />
                 <View style={styles.buttonList}>
-                    <MyButton style={styles.button} title="Single Player" />
+                    <MyButton
+                        onPress={() => navigation.navigate("SinglePlayerGame")}
+                        style={styles.button}
+                        title="Single Player"
+                    />
                     <MyButton style={styles.button} title="MultiPlayer" />
                     <MyButton style={styles.button} title="Login" />
                     <MyButton style={styles.button} title="Settings" />
