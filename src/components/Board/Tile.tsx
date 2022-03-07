@@ -5,43 +5,21 @@ import AmikoText from "../Text/AmikoText";
 type TileProps = {
     key: number | string;
     letter: string;
-    letterIndex: number;
     boardSize: number;
-    answer: string;
-    tileColour?: string;
-    textColour?: string;
-    borderWidth?: number;
+    tileColour: string;
+    textColour: string;
+    borderWidth: number;
 };
 
 export default function Tile({
     letter,
-    letterIndex,
     boardSize,
-    answer,
     tileColour,
     textColour,
     borderWidth
 }: TileProps): ReactElement {
-    // cast the current letter and Natdle answer to uppercase
+    // cast the current letter to uppercase
     letter = letter.toUpperCase();
-    answer = answer.toUpperCase();
-
-    // // set tile colour based on regular wordle rules
-    // let tileColour;
-    // let bWidth;
-    // if (answer[letterIndex] === letter) {
-    //     tileColour = "#6baa64"; // green
-    //     bWidth = 0;
-    // } else if (answer.includes(letter)) {
-    //     tileColour = "#c9b457"; // yellow
-    //     bWidth = 0;
-    // } else if (letter == " ") {
-    //     tileColour = "#fff"; // white (no letter)
-    //     bWidth = 2;
-    // } else {
-    //     tileColour = "#787c7f"; // grey
-    //     bWidth = 0;
-    // }
 
     return (
         <View

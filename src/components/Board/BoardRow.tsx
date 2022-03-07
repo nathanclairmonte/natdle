@@ -98,9 +98,7 @@ export default function BoardRow({ guess, answer, boardSize }: BoardRowProps): R
                     <Tile
                         key={index}
                         letter={letter}
-                        letterIndex={index}
                         boardSize={boardSize}
-                        answer={answer}
                         tileColour={tileColours[index]}
                         textColour={textColours[index]}
                         borderWidth={bWidths[index]}
