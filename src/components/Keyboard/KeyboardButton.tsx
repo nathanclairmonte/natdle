@@ -19,6 +19,9 @@ export default function KeyboardButton({
     if (symbol.toLowerCase() === "del") {
         buttonColour = "red";
         buttonWidth = boardSize / 8; // 43 if boardSize is 340
+    } else if (symbol.toLowerCase() === "submit") {
+        buttonColour = "#000";
+        buttonWidth = boardSize / 2;
     } else {
         buttonColour = "#000";
         buttonWidth = boardSize / 11 + 2; // 33 if boardSize is 340

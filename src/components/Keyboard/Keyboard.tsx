@@ -42,7 +42,10 @@ export default function Keyboard({ boardSize, onKeyPressed }: KeyboardProps): Re
                 <KeyboardButton onKeyPressed={onKeyPressed} symbol="b" boardSize={boardSize} />
                 <KeyboardButton onKeyPressed={onKeyPressed} symbol="n" boardSize={boardSize} />
                 <KeyboardButton onKeyPressed={onKeyPressed} symbol="m" boardSize={boardSize} />
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="Del" boardSize={boardSize} />
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="del" boardSize={boardSize} />
+            </View>
+            <View style={styles.keyboardRow}>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="submit" boardSize={boardSize} />
             </View>
         </View>
     );

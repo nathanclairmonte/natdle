@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native";
 import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
-import { printFormattedBoard, BoardState } from "@utils";
+import { Guess, BoardState } from "@utils";
 
 export default function SinglePlayerGame(): ReactElement {
     const boardSize = 340;
@@ -11,6 +11,8 @@ export default function SinglePlayerGame(): ReactElement {
     // printFormattedBoard(b);
 
     const [currWord, setCurrWord] = useState("");
+    const [state, setState] = useState([null, null, null, null, null, null] as BoardState);
+    const answer = "hoard";
 
     return (
         <GradientBackground theme="burple">
@@ -18,8 +20,8 @@ export default function SinglePlayerGame(): ReactElement {
                 <Board
                     // state={["roate", "araar", "wharf", "sharp", "shara", null]}
                     // answer="shara"
-                    state={["adieu", "roads", "board", "hoard", null, null]}
-                    answer="hoard"
+                    // state={["adieu", "roads", "board", "hoard", null, null]}
+                    // answer="hoard"
                     // state={["adieu", "stair", "tacit", null, null, null]}
                     // answer="tacit"
                     // state={["raise", "canon", "caulk", "batch", "patty", "fatty"]}
@@ -32,22 +34,30 @@ export default function SinglePlayerGame(): ReactElement {
                     // answer="beech"
                     // state={["adieu", "taste", "snake", "erase", "lease", null]}
                     // answer="lease"
+                    state={state}
+                    answer={answer}
                     size={boardSize}
                     currWord={currWord}
                 />
                 <Keyboard
                     onKeyPressed={(symbol) => {
-                        if (symbol === "Del" && currWord.length !== 0) {
+                        if (symbol === "del" && currWord.length !== 0) {
                             // remove last character from currWord
                             setCurrWord(currWord.slice(0, -1));
                         } else if (currWord.length === 5) {
-                            // word maxed out, do nothing
-                            return;
-                        }
-                        // else if (symbol=="Enter") {
-                        // run the submit function (will add this later)
-                        // }
-                        else if (symbol !== "Del") {
+                            if (symbol == "submit") {
+                                // check if guessed word is acceptable
+                                // add guessed word to the state
+                                const newState = state.map((guess, idx) => {
+                                    return idx == state.indexOf(null) ? (currWord as Guess) : guess;
+                                });
+                                setState(newState as BoardState);
+                                setCurrWord("");
+                            } else {
+                                // word maxed out, do nothing
+                                return;
+                            }
+                        } else if (symbol !== "del" && symbol !== "submit") {
                             // add character to currWord
                             setCurrWord(currWord + symbol);
                         }
