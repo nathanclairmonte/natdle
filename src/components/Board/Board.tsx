@@ -1,20 +1,28 @@
-import { View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import React, { ReactElement } from "react";
-import AmikoText from "../Text/AmikoText";
 import BoardRow from "./BoardRow";
+import { BoardState } from "@utils";
 
 type BoardProps = {
     // state -> array containing all guesses so far (max 6 guesses)
-    state: [string, string, string, string, string, string];
+    state: BoardState;
 
     // answer -> the word to be guessed
     answer: string;
 
     // size -> size of the game board
     size: number;
+
+    //currWord -> the current word being typed out by the user
+    currWord: string;
 };
 
-export default function Board({ state, answer, size }: BoardProps): ReactElement {
+export default function Board({ state, answer, size, currWord }: BoardProps): ReactElement {
+    // add spaces onto the end of currWord (for printing empty tiles)
+    for (let i = 0; i < 5 - currWord.length; i++) {
+        currWord += " ";
+    }
+
     return (
         <View
             style={{
@@ -28,8 +36,20 @@ export default function Board({ state, answer, size }: BoardProps): ReactElement
                 paddingTop: 23
             }}
         >
-            {state.map((cell, index) => {
-                return <BoardRow key={index} guess={cell} answer={answer} boardSize={size} />;
+            {state.map((guess, index) => {
+                // make sure we are only typing in first free row
+                let typedWord = "     ";
+                if (state[index] === null && state[index - 1] !== null) typedWord = currWord;
+
+                return (
+                    <BoardRow
+                        key={index}
+                        guess={guess}
+                        answer={answer}
+                        boardSize={size}
+                        typedWord={typedWord}
+                    />
+                );
             })}
         </View>
     );

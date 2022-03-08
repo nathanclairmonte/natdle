@@ -18,9 +18,6 @@ export default function Tile({
     textColour,
     borderWidth
 }: TileProps): ReactElement {
-    // cast the current letter to uppercase
-    letter = letter.toUpperCase();
-
     return (
         <View
             style={{
@@ -41,7 +38,7 @@ export default function Tile({
                     color: textColour
                 }}
             >
-                {letter}
+                {letter ? letter.toUpperCase() : letter}
             </AmikoText>
         </View>
     );

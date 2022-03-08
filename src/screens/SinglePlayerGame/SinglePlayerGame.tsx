@@ -1,36 +1,56 @@
-import { Text, SafeAreaView } from "react-native";
-import React, { ReactElement } from "react";
+import { SafeAreaView } from "react-native";
+import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
+import { printFormattedBoard, BoardState } from "@utils";
 
 export default function SinglePlayerGame(): ReactElement {
     const boardSize = 340;
+
+    const b: BoardState = ["adieu", "taste", "snake", "erase", "lease", "     "];
+    // printFormattedBoard(b);
+
+    const [currWord, setCurrWord] = useState("");
 
     return (
         <GradientBackground theme="burple">
             <SafeAreaView style={styles.container}>
                 <Board
-                    // state={["roate", "araar", "wharf", "sharp", "shara", "     "]}
+                    // state={["roate", "araar", "wharf", "sharp", "shara", null]}
                     // answer="shara"
-                    // state={["adieu", "roads", "board", "hoard", "     ", "     "]}
-                    // answer="hoard"
-                    // state={["adieu", "stair", "tacit", "     ", "     ", "     "]}
+                    state={["adieu", "roads", "board", "hoard", null, null]}
+                    answer="hoard"
+                    // state={["adieu", "stair", "tacit", null, null, null]}
                     // answer="tacit"
                     // state={["raise", "canon", "caulk", "batch", "patty", "fatty"]}
                     // answer="fatty"
-                    // state={["irate", "spunk", "known", "nuked", "funky", "     "]}
+                    // state={["irate", "spunk", "known", "nuked", "funky", null]}
                     // answer="funky"
-                    // state={["raise", "clone", "cults", "culcs", "cycle", "     "]}
+                    // state={["raise", "clone", "cults", "culcs", "cycle", null]}
                     // answer="cycle"
-                    // state={["raise", "elope", "cheek", "beech", "     ", "     "]}
+                    // state={["raise", "elope", "cheek", "beech", null, null]}
                     // answer="beech"
-                    state={["adieu", "taste", "snake", "erase", "lease", "     "]}
-                    answer="lease"
+                    // state={["adieu", "taste", "snake", "erase", "lease", null]}
+                    // answer="lease"
                     size={boardSize}
+                    currWord={currWord}
                 />
                 <Keyboard
                     onKeyPressed={(symbol) => {
-                        console.log(symbol);
+                        if (symbol === "Del" && currWord.length !== 0) {
+                            // remove last character from currWord
+                            setCurrWord(currWord.slice(0, -1));
+                        } else if (currWord.length === 5) {
+                            // word maxed out, do nothing
+                            return;
+                        }
+                        // else if (symbol=="Enter") {
+                        // run the submit function (will add this later)
+                        // }
+                        else if (symbol !== "Del") {
+                            // add character to currWord
+                            setCurrWord(currWord + symbol);
+                        }
                     }}
                     boardSize={boardSize}
                 />
