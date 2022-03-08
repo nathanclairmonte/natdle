@@ -2,17 +2,31 @@ import { SafeAreaView } from "react-native";
 import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
-import { Guess, BoardState } from "@utils";
+import { Guess, BoardState, KeyColours } from "@utils";
 
 export default function SinglePlayerGame(): ReactElement {
     const boardSize = 340;
 
-    const b: BoardState = ["adieu", "taste", "snake", "erase", "lease", "     "];
-    // printFormattedBoard(b);
+    // const b: BoardState = ["adieu", "taste", "snake", "erase", "lease", "     "];
+    const startState: BoardState = [null, null, null, null, null, null];
 
     const [currWord, setCurrWord] = useState("");
-    const [state, setState] = useState([null, null, null, null, null, null] as BoardState);
+    const [state, setState] = useState(startState);
     const answer = "hoard";
+
+    // defining colours as variables for readiblity
+    const black = "#000";
+    // const green = "#6baa64";
+    // const grey = "#787c7f";
+    const red = "red";
+
+    // used to set key colours based on letters used/available
+    // prettier-ignore
+    const [keyColours, setKeyColours] = useState({
+        q: black, w: black, e: black, r: black, t: black, y: black, u: black, i: black, o: black, p: black,
+        a: black, s: black, d: black, f: black, g: black, h: black, j: black, k: black, l: black,
+        z: black, x: black, c: black, v: black, b: black, n: black, m: black, submit: black, del: red
+    } as KeyColours);
 
     return (
         <GradientBackground theme="burple">
@@ -38,6 +52,7 @@ export default function SinglePlayerGame(): ReactElement {
                     answer={answer}
                     size={boardSize}
                     currWord={currWord}
+                    keyColours={keyColours}
                 />
                 <Keyboard
                     onKeyPressed={(symbol) => {
@@ -63,6 +78,7 @@ export default function SinglePlayerGame(): ReactElement {
                         }
                     }}
                     boardSize={boardSize}
+                    keyColours={keyColours}
                 />
             </SafeAreaView>
         </GradientBackground>

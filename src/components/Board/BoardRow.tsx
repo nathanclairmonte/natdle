@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React, { ReactElement } from "react";
 import Tile from "./Tile";
-import { Guess } from "@utils";
+import { Guess, KeyColours } from "@utils";
 
 type BoardRowProps = {
     key: number | string;
@@ -9,18 +9,32 @@ type BoardRowProps = {
     answer: string;
     boardSize: number;
     typedWord: string;
+    keyColours: KeyColours;
 };
 
 export default function BoardRow({
     guess,
     answer,
     boardSize,
-    typedWord
+    typedWord,
+    keyColours
 }: BoardRowProps): ReactElement {
+    // defining colours as variables to make code more readable
+    const black = "#000";
+    const white = "#fff";
+    const green = "#6baa64";
+    const grey = "#787c7f";
+    const yellow = "#c9b457";
+
+    // variables to help with colouring a row
     const tileColours: string[] = [];
     const textColours: string[] = [];
     const bWidths: number[] = [];
     const answerArr = answer.split("");
+
+    // variables to track which keyboard letters should change colour
+    const greenLetters: string[] = [];
+    const greyLetters: string[] = [];
 
     // const guessCheck = "culcs";
     // if (guess === guessCheck) console.log("------------------------------------------------------");
@@ -28,8 +42,8 @@ export default function BoardRow({
     // guess is null, make the row empty
     if (!guess) {
         for (let i = 0; i < 5; i++) {
-            tileColours.push("#fff");
-            textColours.push("#000");
+            tileColours.push(white);
+            textColours.push(black);
             bWidths.push(2);
         }
     }
@@ -45,18 +59,24 @@ export default function BoardRow({
 
             // letter is not in answer at all, set to grey
             if (letterPos === -1) {
-                tileColours.push("#787c7f"); // grey
-                textColours.push("#fff");
+                tileColours.push(grey);
+                textColours.push(white);
                 bWidths.push(0);
+                for (const i in keyColours) {
+                    if (i === letter) keyColours[i] = grey;
+                }
             }
 
             // letter is in answer
             else {
                 // letter is in correct position, set to green
                 if (letter === answer[i]) {
-                    tileColours.push("#6baa64"); // green
-                    textColours.push("#fff");
+                    tileColours.push(green);
+                    textColours.push(white);
                     bWidths.push(0);
+                    for (const i in keyColours) {
+                        if (i === letter) keyColours[i] = green;
+                    }
                 }
 
                 // letter is not in correct position
@@ -81,15 +101,15 @@ export default function BoardRow({
 
                     // still more of letter to be correctly guessed, set to yellow
                     if (numInAnswer - numCorrectlyGuessed > 0) {
-                        tileColours.push("#c9b457"); // yellow
-                        textColours.push("#fff");
+                        tileColours.push(yellow);
+                        textColours.push(white);
                         bWidths.push(0);
                     }
 
                     // no more of letter to be correctly guessed, set to grey
                     else {
-                        tileColours.push("#787c7f"); // grey
-                        textColours.push("#fff");
+                        tileColours.push(grey);
+                        textColours.push(white);
                         bWidths.push(0);
                         keepLetter = true;
                     }

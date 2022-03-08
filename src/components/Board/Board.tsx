@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React, { ReactElement } from "react";
 import BoardRow from "./BoardRow";
-import { BoardState } from "@utils";
+import { BoardState, KeyColours } from "@utils";
 
 type BoardProps = {
     // state -> array containing all guesses so far (max 6 guesses)
@@ -15,9 +15,18 @@ type BoardProps = {
 
     //currWord -> the current word being typed out by the user
     currWord: string;
+
+    //keyColours -> the colours to be given to the keyboard keys based on guesses
+    keyColours: KeyColours;
 };
 
-export default function Board({ state, answer, size, currWord }: BoardProps): ReactElement {
+export default function Board({
+    state,
+    answer,
+    size,
+    currWord,
+    keyColours
+}: BoardProps): ReactElement {
     // add spaces onto the end of currWord (for printing empty tiles)
     for (let i = 0; i < 5 - currWord.length; i++) {
         currWord += " ";
@@ -48,6 +57,7 @@ export default function Board({ state, answer, size, currWord }: BoardProps): Re
                         answer={answer}
                         boardSize={size}
                         typedWord={typedWord}
+                        keyColours={keyColours}
                     />
                 );
             })}

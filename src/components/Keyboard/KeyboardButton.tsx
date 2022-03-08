@@ -4,29 +4,20 @@ import AmikoText from "../Text/AmikoText";
 
 type KeyboardButtonProps = {
     symbol: string;
-    boardSize: number;
     onKeyPressed: (symbol: string) => void;
+    buttonColour: string;
+    buttonWidth: number;
+    keyHeight: number;
 } & TouchableOpacityProps;
 
 export default function KeyboardButton({
     symbol,
-    boardSize,
     onKeyPressed,
+    buttonColour,
+    buttonWidth,
+    keyHeight,
     ...props
 }: KeyboardButtonProps): ReactElement {
-    let buttonColour;
-    let buttonWidth;
-    if (symbol.toLowerCase() === "del") {
-        buttonColour = "red";
-        buttonWidth = boardSize / 8; // 43 if boardSize is 340
-    } else if (symbol.toLowerCase() === "submit") {
-        buttonColour = "#000";
-        buttonWidth = boardSize / 2;
-    } else {
-        buttonColour = "#000";
-        buttonWidth = boardSize / 11 + 2; // 33 if boardSize is 340
-    }
-
     return (
         <TouchableOpacity
             {...props}
@@ -35,7 +26,7 @@ export default function KeyboardButton({
                 alignItems: "center",
                 justifyContent: "center",
                 width: buttonWidth,
-                height: boardSize / 6, // 57 if boardSize is 340
+                height: keyHeight,
                 backgroundColor: buttonColour,
                 marginHorizontal: 2,
                 paddingVertical: 10,
