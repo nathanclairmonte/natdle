@@ -7,12 +7,16 @@ import { KeyColours } from "@utils";
 type KeyboardProps = {
     boardSize: number;
     keyColours: KeyColours;
+    submitText: string;
+    isSubmitDisabled: boolean;
     onKeyPressed: (symbol: string) => void;
 };
 
 export default function Keyboard({
     boardSize,
     keyColours,
+    submitText,
+    isSubmitDisabled,
     onKeyPressed
 }: KeyboardProps): ReactElement {
     // // defining colours as variables for readiblity
@@ -41,40 +45,40 @@ export default function Keyboard({
     return (
         <View style={styles.keyboard}>
             <View style={styles.keyboardRow}>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="q" buttonColour={keyColours["q"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="w" buttonColour={keyColours["w"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="e" buttonColour={keyColours["e"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="r" buttonColour={keyColours["r"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="t" buttonColour={keyColours["t"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="y" buttonColour={keyColours["y"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="u" buttonColour={keyColours["u"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="i" buttonColour={keyColours["i"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="o" buttonColour={keyColours["o"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="p" buttonColour={keyColours["p"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="Q" buttonColour={keyColours["Q"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="W" buttonColour={keyColours["W"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="E" buttonColour={keyColours["E"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="R" buttonColour={keyColours["R"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="T" buttonColour={keyColours["T"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="Y" buttonColour={keyColours["Y"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="U" buttonColour={keyColours["U"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="I" buttonColour={keyColours["I"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="O" buttonColour={keyColours["O"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="P" buttonColour={keyColours["P"]} buttonWidth={regWidth} keyHeight={regHeight}/>
             </View>
             <View style={styles.keyboardRow}>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="a" buttonColour={keyColours["a"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="s" buttonColour={keyColours["s"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="d" buttonColour={keyColours["d"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="f" buttonColour={keyColours["f"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="g" buttonColour={keyColours["g"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="h" buttonColour={keyColours["h"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="j" buttonColour={keyColours["j"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="k" buttonColour={keyColours["k"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="l" buttonColour={keyColours["l"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="A" buttonColour={keyColours["A"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="S" buttonColour={keyColours["S"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="D" buttonColour={keyColours["D"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="F" buttonColour={keyColours["F"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="G" buttonColour={keyColours["G"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="H" buttonColour={keyColours["H"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="J" buttonColour={keyColours["J"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="K" buttonColour={keyColours["K"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="L" buttonColour={keyColours["L"]} buttonWidth={regWidth} keyHeight={regHeight}/>
             </View>
             <View style={styles.keyboardRow}>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="z" buttonColour={keyColours["z"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="x" buttonColour={keyColours["x"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="c" buttonColour={keyColours["c"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="v" buttonColour={keyColours["v"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="b" buttonColour={keyColours["b"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="n" buttonColour={keyColours["n"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="m" buttonColour={keyColours["m"]} buttonWidth={regWidth} keyHeight={regHeight}/>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="del" buttonColour={keyColours["del"]} buttonWidth={delWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="Z" buttonColour={keyColours["Z"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="X" buttonColour={keyColours["X"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="C" buttonColour={keyColours["C"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="V" buttonColour={keyColours["V"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="B" buttonColour={keyColours["B"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="N" buttonColour={keyColours["N"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="M" buttonColour={keyColours["M"]} buttonWidth={regWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol="DEL" buttonColour={keyColours["DEL"]} buttonWidth={delWidth} keyHeight={regHeight}/>
             </View>
             <View style={styles.keyboardRow}>
-                <KeyboardButton onKeyPressed={onKeyPressed} symbol="submit" buttonColour={keyColours["submit"]} buttonWidth={submitWidth} keyHeight={regHeight}/>
+                <KeyboardButton onKeyPressed={onKeyPressed} symbol={submitText} buttonColour={keyColours["SUBMIT"]} buttonWidth={submitWidth} keyHeight={regHeight} disabled={isSubmitDisabled}/>
             </View>
         </View>
     );

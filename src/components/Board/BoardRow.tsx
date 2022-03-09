@@ -63,7 +63,7 @@ export default function BoardRow({
                 textColours.push(white);
                 bWidths.push(0);
                 for (const i in keyColours) {
-                    if (i === letter) keyColours[i] = grey;
+                    if (i === letter.toUpperCase()) keyColours[i] = grey;
                 }
             }
 
@@ -75,7 +75,7 @@ export default function BoardRow({
                     textColours.push(white);
                     bWidths.push(0);
                     for (const i in keyColours) {
-                        if (i === letter) keyColours[i] = green;
+                        if (i === letter.toUpperCase()) keyColours[i] = green;
                     }
                 }
 

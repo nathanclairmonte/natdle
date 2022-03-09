@@ -8,6 +8,7 @@ type KeyboardButtonProps = {
     buttonColour: string;
     buttonWidth: number;
     keyHeight: number;
+    disabled?: boolean;
 } & TouchableOpacityProps;
 
 export default function KeyboardButton({
@@ -16,12 +17,14 @@ export default function KeyboardButton({
     buttonColour,
     buttonWidth,
     keyHeight,
+    disabled,
     ...props
 }: KeyboardButtonProps): ReactElement {
     return (
         <TouchableOpacity
             {...props}
             onPress={() => onKeyPressed && onKeyPressed(symbol)}
+            disabled={disabled ? disabled : false}
             style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -34,7 +37,7 @@ export default function KeyboardButton({
                 paddingTop: 12
             }}
         >
-            <AmikoText style={{ fontSize: 18, color: "#fff" }}>{symbol.toUpperCase()}</AmikoText>
+            <AmikoText style={{ fontSize: 18, color: "#fff" }}>{symbol}</AmikoText>
         </TouchableOpacity>
     );
 }
