@@ -2,10 +2,12 @@ import { View } from "react-native";
 import React, { ReactNode, ReactElement } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
+import { Theme } from "@utils";
 
 type GradientBackgroundProps = {
     children: ReactNode;
-    theme?: "fav" | "burple" | "spring" | "frozen";
+    // theme?: "fav" | "burple" | "spring" | "frozen";
+    theme?: Theme;
 };
 
 const defaultProps = {
