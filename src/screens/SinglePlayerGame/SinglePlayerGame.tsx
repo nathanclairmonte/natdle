@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native";
 import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
-import { Guess, BoardState, KeyColours, answersEasy, allowedGuesses, ThemeOptions } from "@utils";
+import { Guess, BoardState, KeyColours, answers, allowedGuesses, ThemeOptions } from "@utils";
 
 const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 
@@ -12,16 +12,14 @@ export default function SinglePlayerGame(): ReactElement {
     const startState: BoardState = [null, null, null, null, null, null];
     // const answer = "hoard";
     // const answer = "slatt";
-    // const answer = answersEasy[Math.floor(Math.random() * answersEasy.length)];
+    // const answer = answers[Math.floor(Math.random() * answers.length)];
 
     // pieces of state
     const [theme, setTheme] = useState(
         themeOptions[Math.floor(Math.random() * themeOptions.length)]
     );
     const [state, setState] = useState(startState); // state of the board
-    const [answer, setAnswer] = useState(
-        answersEasy[Math.floor(Math.random() * answersEasy.length)]
-    );
+    const [answer, setAnswer] = useState(answers[Math.floor(Math.random() * answers.length)]);
     const [currWord, setCurrWord] = useState(""); // used for typing letters in
     const [submitText, setSubmitText] = useState("SUBMIT");
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
@@ -35,6 +33,7 @@ export default function SinglePlayerGame(): ReactElement {
     const delString = "DEL";
     const submitString = "SUBMIT";
     const notWordString = "Not a word :(";
+    const cheatString = "skrrr";
 
     // used to set key colours based on letters used/available
     // prettier-ignore
@@ -46,6 +45,11 @@ export default function SinglePlayerGame(): ReactElement {
 
     // onKeyPressed function
     const onKeyPressed = (symbol: string): void => {
+        // code for the cheat lol
+        if (symbol === "Q" && currWord === cheatString) {
+            setCurrWord(answer);
+        }
+
         if (symbol === delString) {
             // revert submit button colour + text if currWord is.length is 5 and not a word
             // this is because deleting a letter should remove the not a word text

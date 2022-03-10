@@ -2365,6 +2365,7 @@ export const answers = [
 
 export const allowedGuesses = [
     "slatt",
+    "skrrr",
     "abate",
     "abbey",
     "abbot",
