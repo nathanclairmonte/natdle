@@ -27,7 +27,7 @@ export default function Tile({
                 height: boardSize / 5 - 10,
                 backgroundColor: tileColour,
                 marginHorizontal: 4,
-                paddingTop: 7,
+                paddingTop: 5,
                 borderWidth: borderWidth,
                 borderColor: "#555"
             }}
@@ -37,6 +37,7 @@ export default function Tile({
                     fontSize: boardSize / 9,
                     color: textColour
                 }}
+                weight="600"
             >
                 {letter ? letter.toUpperCase() : letter}
             </AmikoText>
