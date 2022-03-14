@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import React, { ReactElement, useState, useEffect, useRef } from "react";
+import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
 import {
@@ -9,10 +9,9 @@ import {
     answers,
     allowedGuesses,
     Theme,
-    ThemeOptions
+    ThemeOptions,
+    useSounds
 } from "@utils";
-import { Audio } from "expo-av";
-import * as Haptics from "expo-haptics";
 
 const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 
@@ -20,9 +19,6 @@ export default function SinglePlayerGame(): ReactElement {
     // initialization variables
     const boardSize = 340;
     const startState: BoardState = [null, null, null, null, null, null];
-    // const answer = "hoard";
-    // const answer = "slatt";
-    // const answer = answers[Math.floor(Math.random() * answers.length)];
 
     // pieces of state
     const [theme, setTheme] = useState<Theme>(
@@ -37,11 +33,8 @@ export default function SinglePlayerGame(): ReactElement {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
     const [gameOver, setGameOver] = useState<boolean>(false);
 
-    // react references
-    const keyboardSoundRef = useRef<Audio.Sound | null>(null);
-    const submitSoundRef = useRef<Audio.Sound | null>(null);
-    const winSoundRef = useRef<Audio.Sound | null>(null);
-    const loseSoundRef = useRef<Audio.Sound | null>(null);
+    // getting playSound function from our custom useSounds hook
+    const playSound = useSounds();
 
     // defining colours as variables for readiblity
     const black = "#000";
@@ -61,28 +54,6 @@ export default function SinglePlayerGame(): ReactElement {
         A: black, S: black, D: black, F: black, G: black, H: black, J: black, K: black, L: black,
         Z: black, X: black, C: black, V: black, B: black, N: black, M: black, SUBMIT: black, DEL: red
     } as KeyColours);
-
-    // play any sound (adds haptics as well)
-    const playSound = (sound: "key" | "submit" | "win" | "lose"): void => {
-        try {
-            // sounds
-            if (sound === "key") keyboardSoundRef.current?.replayAsync();
-            else if (sound === "submit") submitSoundRef.current?.replayAsync();
-            else if (sound === "win") winSoundRef.current?.replayAsync();
-            else if (sound === "lose") loseSoundRef.current?.replayAsync();
-
-            // haptics
-            if (sound === "key" || sound === "submit") {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            } else if (sound === "win") {
-                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            } else if (sound === "lose") {
-                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     // onKeyPressed function
     const onKeyPressed = (symbol: string): void => {
@@ -201,38 +172,6 @@ export default function SinglePlayerGame(): ReactElement {
             setCurrWord(currWord + symbol.toLowerCase());
         }
     };
-
-    // load sounds
-    useEffect(() => {
-        // load sounds once (when screen renders)
-        const keyboardSoundObject = new Audio.Sound();
-        const submitSoundObject = new Audio.Sound();
-        const winSoundObject = new Audio.Sound();
-        const loseSoundObject = new Audio.Sound();
-
-        const loadSounds = async () => {
-            /* eslint-disable @typescript-eslint/no-var-requires */
-            await keyboardSoundObject.loadAsync(require("@assets/keyboard.wav"));
-            keyboardSoundRef.current = keyboardSoundObject;
-            await submitSoundObject.loadAsync(require("@assets/submit.wav"));
-            submitSoundRef.current = submitSoundObject;
-            await winSoundObject.loadAsync(require("@assets/win.wav"));
-            winSoundRef.current = winSoundObject;
-            await loseSoundObject.loadAsync(require("@assets/lose.wav"));
-            loseSoundRef.current = loseSoundObject;
-        };
-
-        loadSounds();
-
-        return () => {
-            // will fire when component unmounts
-            // unload sounds
-            keyboardSoundObject && keyboardSoundObject.unloadAsync();
-            submitSoundObject && submitSoundObject.unloadAsync();
-            winSoundObject && winSoundObject.unloadAsync();
-            loseSoundObject && loseSoundObject.unloadAsync();
-        };
-    }, []);
 
     return (
         <GradientBackground theme={theme}>
