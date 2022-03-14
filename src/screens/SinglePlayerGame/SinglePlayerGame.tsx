@@ -2,7 +2,15 @@ import { SafeAreaView } from "react-native";
 import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
-import { Guess, BoardState, KeyColours, answers, allowedGuesses, ThemeOptions } from "@utils";
+import {
+    Guess,
+    BoardState,
+    KeyColours,
+    answers,
+    allowedGuesses,
+    Theme,
+    ThemeOptions
+} from "@utils";
 
 const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 
@@ -15,14 +23,17 @@ export default function SinglePlayerGame(): ReactElement {
     // const answer = answers[Math.floor(Math.random() * answers.length)];
 
     // pieces of state
-    const [theme, setTheme] = useState(
+    const [theme, setTheme] = useState<Theme>(
         themeOptions[Math.floor(Math.random() * themeOptions.length)]
     );
-    const [state, setState] = useState(startState); // state of the board
-    const [answer, setAnswer] = useState(answers[Math.floor(Math.random() * answers.length)]);
-    const [currWord, setCurrWord] = useState(""); // used for typing letters in
-    const [submitText, setSubmitText] = useState("SUBMIT");
-    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+    const [state, setState] = useState<BoardState>(startState); // state of the board
+    const [answer, setAnswer] = useState<string>(
+        answers[Math.floor(Math.random() * answers.length)]
+    );
+    const [currWord, setCurrWord] = useState<string>(""); // used for typing letters in
+    const [submitText, setSubmitText] = useState<string>("SUBMIT");
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
+    const [gameOver, setGameOver] = useState<boolean>(false);
 
     // defining colours as variables for readiblity
     const black = "#000";
@@ -72,13 +83,32 @@ export default function SinglePlayerGame(): ReactElement {
             setCurrWord(currWord.slice(0, -1));
         } else if (currWord.length === 5) {
             if (symbol == submitString) {
-                // check if guessed word is acceptable
+                // NB: don't have to check if word is valid here because player cannot
+                //     press submit if word is invalid (that check happens below)
+
+                // currWord matches answer, game over and player won
+                if (currWord === answer) {
+                    setGameOver(true);
+                    console.log("YOU WON");
+                    // create YOU WON modal
+                }
+
+                // player has run out of guesses, game over and player lost
+                else if (state.indexOf(null) === 5) {
+                    setGameOver(true);
+                    console.log("YOU LOST");
+                    // create YOU LOST modal
+                }
+
                 // add guessed word to the state
                 const nextEmptyIdx = state.indexOf(null);
                 const newState = state.map((guess, idx) => {
                     return idx === nextEmptyIdx ? (currWord as Guess) : guess;
                 });
                 setState(newState as BoardState);
+
+                // reset currWord to empty string (for new line of guesses)
+                // will happen even if game is over but doesn't matter
                 setCurrWord("");
             } else {
                 // word maxed out, do nothing
