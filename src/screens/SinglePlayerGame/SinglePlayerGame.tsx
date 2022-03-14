@@ -169,6 +169,7 @@ export default function SinglePlayerGame(): ReactElement {
                     keyColours={keyColours}
                     submitText={submitText}
                     isSubmitDisabled={isSubmitDisabled}
+                    gameOver={gameOver}
                 />
             </SafeAreaView>
         </GradientBackground>
