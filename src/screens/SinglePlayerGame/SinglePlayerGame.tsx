@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect, useRef } from "react";
 import styles from "./SinglePlayerGame.styles";
 import { GradientBackground, Board, Keyboard } from "@components";
 import {
@@ -11,6 +11,8 @@ import {
     Theme,
     ThemeOptions
 } from "@utils";
+import { Audio } from "expo-av";
+import * as Haptics from "expo-haptics";
 
 const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 
@@ -35,6 +37,12 @@ export default function SinglePlayerGame(): ReactElement {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
     const [gameOver, setGameOver] = useState<boolean>(false);
 
+    // react references
+    const keyboardSoundRef = useRef<Audio.Sound | null>(null);
+    const submitSoundRef = useRef<Audio.Sound | null>(null);
+    const winSoundRef = useRef<Audio.Sound | null>(null);
+    const loseSoundRef = useRef<Audio.Sound | null>(null);
+
     // defining colours as variables for readiblity
     const black = "#000";
     const red = "red";
@@ -54,6 +62,28 @@ export default function SinglePlayerGame(): ReactElement {
         Z: black, X: black, C: black, V: black, B: black, N: black, M: black, SUBMIT: black, DEL: red
     } as KeyColours);
 
+    // play any sound (adds haptics as well)
+    const playSound = (sound: "key" | "submit" | "win" | "lose"): void => {
+        try {
+            // sounds
+            if (sound === "key") keyboardSoundRef.current?.replayAsync();
+            else if (sound === "submit") submitSoundRef.current?.replayAsync();
+            else if (sound === "win") winSoundRef.current?.replayAsync();
+            else if (sound === "lose") loseSoundRef.current?.replayAsync();
+
+            // haptics
+            if (sound === "key" || sound === "submit") {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            } else if (sound === "win") {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            } else if (sound === "lose") {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     // onKeyPressed function
     const onKeyPressed = (symbol: string): void => {
         // code for the cheat lol
@@ -62,6 +92,9 @@ export default function SinglePlayerGame(): ReactElement {
         }
 
         if (symbol === delString) {
+            // play keyboard sound
+            playSound("key");
+
             // revert submit button colour + text if currWord is.length is 5 and not a word
             // this is because deleting a letter should remove the not a word text
             if (currWord.length === 5 && !allowedGuesses.includes(currWord)) {
@@ -86,18 +119,31 @@ export default function SinglePlayerGame(): ReactElement {
                 // NB: don't have to check if word is valid here because player cannot
                 //     press submit if word is invalid (that check happens below)
 
+                // play submit sound
+                playSound("submit");
+
                 // currWord matches answer, game over and player won
                 if (currWord === answer) {
+                    // play win sound
+                    playSound("win");
+
+                    // game is over
                     setGameOver(true);
-                    console.log("YOU WON");
-                    // create YOU WON modal
+
+                    // create win modal (alerting for now)
+                    alert("YOU WON");
                 }
 
                 // player has run out of guesses, game over and player lost
                 else if (state.indexOf(null) === 5) {
+                    // play lose sound
+                    playSound("lose");
+
+                    // game is over
                     setGameOver(true);
-                    console.log("YOU LOST");
-                    // create YOU LOST modal
+
+                    // create lose modal (alerting for now)
+                    alert("YOU LOST");
                 }
 
                 // add guessed word to the state
@@ -115,6 +161,9 @@ export default function SinglePlayerGame(): ReactElement {
                 return;
             }
         } else if (symbol !== delString && symbol !== submitString) {
+            // play keyboard sound
+            playSound("key");
+
             // check if currWord is 4 letters before adding symbol
             // if it is, check validity of 5-letter word after adding symbol
             if (currWord.length === 4) {
@@ -152,6 +201,38 @@ export default function SinglePlayerGame(): ReactElement {
             setCurrWord(currWord + symbol.toLowerCase());
         }
     };
+
+    // load sounds
+    useEffect(() => {
+        // load sounds once (when screen renders)
+        const keyboardSoundObject = new Audio.Sound();
+        const submitSoundObject = new Audio.Sound();
+        const winSoundObject = new Audio.Sound();
+        const loseSoundObject = new Audio.Sound();
+
+        const loadSounds = async () => {
+            /* eslint-disable @typescript-eslint/no-var-requires */
+            await keyboardSoundObject.loadAsync(require("@assets/keyboard.wav"));
+            keyboardSoundRef.current = keyboardSoundObject;
+            await submitSoundObject.loadAsync(require("@assets/submit.wav"));
+            submitSoundRef.current = submitSoundObject;
+            await winSoundObject.loadAsync(require("@assets/win.wav"));
+            winSoundRef.current = winSoundObject;
+            await loseSoundObject.loadAsync(require("@assets/lose.wav"));
+            loseSoundRef.current = loseSoundObject;
+        };
+
+        loadSounds();
+
+        return () => {
+            // will fire when component unmounts
+            // unload sounds
+            keyboardSoundObject && keyboardSoundObject.unloadAsync();
+            submitSoundObject && submitSoundObject.unloadAsync();
+            winSoundObject && winSoundObject.unloadAsync();
+            loseSoundObject && loseSoundObject.unloadAsync();
+        };
+    }, []);
 
     return (
         <GradientBackground theme={theme}>
