@@ -1,7 +1,7 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Dimensions, View, Image } from "react-native";
 import React, { ReactElement, useState } from "react";
 import styles from "./SinglePlayerGame.styles";
-import { GradientBackground, Board, Keyboard } from "@components";
+import { GradientBackground, Board, Keyboard, AmikoText, MyButton } from "@components";
 import {
     Guess,
     BoardState,
@@ -14,11 +14,24 @@ import {
 } from "@utils";
 
 const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
+const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 export default function SinglePlayerGame(): ReactElement {
+    // defining colours as variables for readiblity
+    const black = "#000";
+    const red = "red";
+    const grey = "#787c7f";
+
     // initialization variables
-    const boardSize = 340;
+    // const boardSize = 340;
+    const boardSize = SCREEN_WIDTH - 42;
     const startState: BoardState = [null, null, null, null, null, null];
+    //prettier-ignore
+    const startKeyColours: KeyColours = {
+        Q: black, W: black, E: black, R: black, T: black, Y: black, U: black, I: black, O: black, P: black,
+        A: black, S: black, D: black, F: black, G: black, H: black, J: black, K: black, L: black,
+        Z: black, X: black, C: black, V: black, B: black, N: black, M: black, SUBMIT: black, DEL: red
+    }
 
     // pieces of state
     const [theme, setTheme] = useState<Theme>(
@@ -32,14 +45,15 @@ export default function SinglePlayerGame(): ReactElement {
     const [submitText, setSubmitText] = useState<string>("SUBMIT");
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
     const [gameOver, setGameOver] = useState<boolean>(false);
+    const [modalText, setModalText] = useState<string>("");
+    const [didUserWin, setDidUserWin] = useState<boolean>(false);
+    const [gamesCount, setGamesCount] = useState({
+        wins: 0,
+        losses: 0
+    });
 
     // getting playSound function from our custom useSounds hook
     const playSound = useSounds();
-
-    // defining colours as variables for readiblity
-    const black = "#000";
-    const red = "red";
-    const grey = "#787c7f";
 
     // defining strings for the submit and delete key labels
     const delString = "DEL";
@@ -49,11 +63,7 @@ export default function SinglePlayerGame(): ReactElement {
 
     // used to set key colours based on letters used/available
     // prettier-ignore
-    const [keyColours, setKeyColours] = useState({
-        Q: black, W: black, E: black, R: black, T: black, Y: black, U: black, I: black, O: black, P: black,
-        A: black, S: black, D: black, F: black, G: black, H: black, J: black, K: black, L: black,
-        Z: black, X: black, C: black, V: black, B: black, N: black, M: black, SUBMIT: black, DEL: red
-    } as KeyColours);
+    const [keyColours, setKeyColours] = useState(startKeyColours);
 
     // onKeyPressed function
     const onKeyPressed = (symbol: string): void => {
@@ -101,8 +111,12 @@ export default function SinglePlayerGame(): ReactElement {
                     // game is over
                     setGameOver(true);
 
-                    // create win modal (alerting for now)
-                    alert("YOU WON");
+                    // create win modal
+                    setModalText("You Won!");
+                    setDidUserWin(true);
+
+                    // update gamesCount
+                    setGamesCount({ ...gamesCount, wins: gamesCount.wins + 1 });
                 }
 
                 // player has run out of guesses, game over and player lost
@@ -113,8 +127,12 @@ export default function SinglePlayerGame(): ReactElement {
                     // game is over
                     setGameOver(true);
 
-                    // create lose modal (alerting for now)
-                    alert("YOU LOST");
+                    // create lose modal
+                    setModalText("You Lost :(");
+                    setDidUserWin(false);
+
+                    // update gamesCount
+                    setGamesCount({ ...gamesCount, losses: gamesCount.losses + 1 });
                 }
 
                 // add guessed word to the state
@@ -173,9 +191,44 @@ export default function SinglePlayerGame(): ReactElement {
         }
     };
 
+    const createNewGame = () => {
+        // reset game state and currWord
+        setState(startState);
+        setCurrWord("");
+
+        // choose a new answer word
+        setAnswer(answers[Math.floor(Math.random() * answers.length)]);
+
+        // set game over and didUserWin back to false
+        setGameOver(false);
+        setDidUserWin(false);
+
+        // reset keyboard colours
+        setKeyColours(startKeyColours);
+    };
+
     return (
         <GradientBackground theme={theme}>
             <SafeAreaView style={styles.container}>
+                <View style={styles.results}>
+                    <View style={styles.resultsBox}>
+                        <AmikoText style={styles.resultsText}>Played:</AmikoText>
+                        <AmikoText style={styles.resultsCount}>
+                            {gamesCount.wins + gamesCount.losses}
+                        </AmikoText>
+                    </View>
+                    <View style={styles.resultsBox}>
+                        <AmikoText style={styles.resultsText}>Win %:</AmikoText>
+                        <AmikoText style={styles.resultsCount}>
+                            {gamesCount.wins + gamesCount.losses === 0
+                                ? 0
+                                : (
+                                      (gamesCount.wins * 100) /
+                                      (gamesCount.wins + gamesCount.losses)
+                                  ).toFixed()}
+                        </AmikoText>
+                    </View>
+                </View>
                 <Board
                     state={state}
                     answer={answer}
@@ -191,6 +244,25 @@ export default function SinglePlayerGame(): ReactElement {
                     isSubmitDisabled={isSubmitDisabled}
                     gameOver={gameOver}
                 />
+                {gameOver && (
+                    <View style={styles.modal}>
+                        <AmikoText style={styles.modalText}>{modalText}</AmikoText>
+                        <Image
+                            style={[
+                                styles.modalImage,
+                                {
+                                    marginLeft: didUserWin ? 15 : -55
+                                }
+                            ]}
+                            source={
+                                didUserWin
+                                    ? require("@assets/dance1.gif")
+                                    : require("@assets/sad1.gif")
+                            }
+                        />
+                        <MyButton title="Play Again" onPress={createNewGame} />
+                    </View>
+                )}
             </SafeAreaView>
         </GradientBackground>
     );
