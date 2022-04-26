@@ -22,7 +22,11 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                     />
                     <MyButton style={styles.button} title="MultiPlayer" />
                     <MyButton style={styles.button} title="Login" />
-                    <MyButton style={styles.button} title="Settings" />
+                    <MyButton
+                        onPress={() => navigation.navigate("Settings")}
+                        style={styles.button}
+                        title="Settings"
+                    />
                 </View>
             </ScrollView>
         </GradientBackground>
