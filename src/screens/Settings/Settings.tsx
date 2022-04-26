@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View, Switch } from "react-native";
 import React, { ReactElement, useState } from "react";
 import { GradientBackground, AmikoText } from "@components";
 import styles from "./Settings.styles";
@@ -16,9 +16,11 @@ const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 
 export default function Settings(): ReactElement {
     // pieces of state
-    const [theme, setTheme] = useState<Theme>(
-        themeOptions[Math.floor(Math.random() * themeOptions.length)]
-    );
+    // const [theme, setTheme] = useState<Theme>(
+    //     themeOptions[Math.floor(Math.random() * themeOptions.length)]
+    // );
+    const [dummyState, setDummyState] = useState(false);
+    const [dummyState2, setDummyState2] = useState(false);
 
     const difficulties = {
         easyList: "Easy Words",
@@ -44,6 +46,36 @@ export default function Settings(): ReactElement {
                             );
                         })}
                     </View>
+                </View>
+
+                <View style={[styles.field, styles.switchField]}>
+                    <AmikoText style={styles.label} weight="600">
+                        Sounds
+                    </AmikoText>
+                    <Switch
+                        trackColor={{
+                            true: "#97D9E1"
+                        }}
+                        value={dummyState}
+                        onValueChange={() => {
+                            setDummyState(!dummyState);
+                        }}
+                    />
+                </View>
+
+                <View style={[styles.field, styles.switchField]}>
+                    <AmikoText style={styles.label} weight="600">
+                        Haptics/Vibrations
+                    </AmikoText>
+                    <Switch
+                        trackColor={{
+                            true: "#97D9E1"
+                        }}
+                        value={dummyState2}
+                        onValueChange={() => {
+                            setDummyState2(!dummyState2);
+                        }}
+                    />
                 </View>
             </ScrollView>
         </GradientBackground>

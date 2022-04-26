@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
     field: {
         marginBottom: 30
     },
+    switchField: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
     label: {
         color: "black",
         fontSize: 24
