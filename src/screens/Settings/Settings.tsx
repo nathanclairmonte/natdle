@@ -1,67 +1,12 @@
-import { ScrollView, TouchableOpacity, View, Switch, Alert } from "react-native";
-import React, { ReactElement, useEffect, useState } from "react";
+import { ScrollView, TouchableOpacity, View, Switch } from "react-native";
+import React, { ReactElement } from "react";
 import { GradientBackground, AmikoText } from "@components";
 import styles from "./Settings.styles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const difficulties = {
-    easy: "Easy Words",
-    medium: "Medium Words",
-    hard: "All Words"
-};
-
-type SettingsType = {
-    difficulty: keyof typeof difficulties;
-    haptics: boolean;
-    sounds: boolean;
-};
-
-const defaultSettings: SettingsType = {
-    difficulty: "hard",
-    haptics: true,
-    sounds: true
-};
-
-// type difficultyKeyType = "easy" | "medium" | "hard";
-// where we use this type below, we can also do the following:
-// right now it is difficulties[key as difficultyKeyType]
-// instead, could also do difficulties[key as keyof typeof difficulties]
-// this would dynamically create the type we have created manually above, directly from
-// the difficulties object itself.
-// UPDATE: changing it to the dynamic version now.
+import { difficulties, useSettings } from "@contexts/Settings-context";
 
 export default function Settings(): ReactElement | null {
-    // pieces of state
-    const [settings, setSettings] = useState<SettingsType | null>(null);
-
-    // function to load settings (either from AsyncStorage or just default)
-    const loadSettings = async () => {
-        try {
-            const settings = await AsyncStorage.getItem("@settings");
-            settings !== null ? setSettings(JSON.parse(settings)) : setSettings(defaultSettings);
-        } catch (error) {
-            setSettings(defaultSettings);
-        }
-    };
-
-    // function to update and save a setting when it is changed on screen
-    const updateSetting = async <T extends keyof SettingsType>(
-        setting: T,
-        value: SettingsType[T]
-    ) => {
-        try {
-            const oldSettings = settings ? settings : defaultSettings;
-            const newSettings = { ...oldSettings, [setting]: value };
-            await AsyncStorage.setItem("@settings", JSON.stringify(newSettings));
-            setSettings(newSettings);
-        } catch (error) {
-            Alert.alert("Error!", "An error has occurred updating the settings");
-        }
-    };
-
-    useEffect(() => {
-        loadSettings();
-    }, []);
+    // get settings from useSettings function we created in Settings-context
+    const { settings, updateSetting } = useSettings();
 
     // if the settings are not yet loaded, don't render page yet
     if (!settings) return null;
