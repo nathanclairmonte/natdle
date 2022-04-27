@@ -7,11 +7,14 @@ import {
     BoardState,
     KeyColours,
     answers,
+    answersEasy,
+    answersMedium,
     allowedGuesses,
     Theme,
     ThemeOptions,
     useSounds
 } from "@utils";
+import { useSettings } from "@contexts/Settings-context";
 
 const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 const SCREEN_WIDTH = Dimensions.get("screen").width;
@@ -33,13 +36,22 @@ export default function SinglePlayerGame(): ReactElement {
         Z: black, X: black, C: black, V: black, B: black, N: black, M: black, SUBMIT: black, DEL: red
     }
 
+    // getting settings from the settings context
+    const { settings } = useSettings();
+
+    // defining answers list based on difficulty
+    let answersList;
+    if (settings?.difficulty === "easy") answersList = answersEasy;
+    else if (settings?.difficulty == "medium") answersList = answersMedium;
+    else answersList = answers;
+
     // pieces of state
     const [theme, setTheme] = useState<Theme>(
         themeOptions[Math.floor(Math.random() * themeOptions.length)]
     );
     const [state, setState] = useState<BoardState>(startState); // state of the board
     const [answer, setAnswer] = useState<string>(
-        answers[Math.floor(Math.random() * answers.length)]
+        answersList[Math.floor(Math.random() * answersList.length)]
     );
     const [currWord, setCurrWord] = useState<string>(""); // used for typing letters in
     const [submitText, setSubmitText] = useState<string>("SUBMIT");

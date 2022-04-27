@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
+import { useSettings } from "@contexts/Settings-context";
 
 type SoundType = "key" | "submit" | "win" | "lose";
 type PlaySoundFunction = (sound: SoundType) => void;
@@ -11,6 +12,9 @@ export default function useSounds(): PlaySoundFunction {
     const submitSoundRef = useRef<Audio.Sound | null>(null);
     const winSoundRef = useRef<Audio.Sound | null>(null);
     const loseSoundRef = useRef<Audio.Sound | null>(null);
+
+    // get settings from settings context
+    const { settings } = useSettings();
 
     // function to play sounds (adds haptics as well)
     const playSound = async (sound: SoundType): Promise<void> => {
@@ -24,8 +28,11 @@ export default function useSounds(): PlaySoundFunction {
 
         try {
             const status = await soundsMap[sound].current?.getStatusAsync();
-            status && status.isLoaded && soundsMap[sound].current?.replayAsync();
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            status &&
+                status.isLoaded &&
+                settings?.sounds &&
+                soundsMap[sound].current?.replayAsync();
+            settings?.haptics && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         } catch (error) {
             console.log(error);
         }
