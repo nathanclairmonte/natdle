@@ -2,10 +2,7 @@ import { ScrollView, TouchableOpacity, View, Switch, Alert } from "react-native"
 import React, { ReactElement, useEffect, useState } from "react";
 import { GradientBackground, AmikoText } from "@components";
 import styles from "./Settings.styles";
-import { Theme, ThemeOptions } from "@utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const themeOptions: ThemeOptions = ["fav", "burple", "spring", "frozen"];
 
 const difficulties = {
     easy: "Easy Words",
@@ -35,11 +32,6 @@ const defaultSettings: SettingsType = {
 
 export default function Settings(): ReactElement | null {
     // pieces of state
-    // const [theme, setTheme] = useState<Theme>(
-    //     themeOptions[Math.floor(Math.random() * themeOptions.length)]
-    // );
-    const [dummyState, setDummyState] = useState(false);
-    const [dummyState2, setDummyState2] = useState(false);
     const [settings, setSettings] = useState<SettingsType | null>(null);
 
     // function to load settings (either from AsyncStorage or just default)
