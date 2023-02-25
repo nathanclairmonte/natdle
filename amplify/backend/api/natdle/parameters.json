@@ -1,0 +1,9 @@
+{
+    "AppSyncApiName": "natdle",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": ["authnatdle5fd4a4ba", "Outputs.UserPoolId"]
+    },
+    "AuthModeLastUpdated": "2023-02-22T19:48:38.470Z"
+}

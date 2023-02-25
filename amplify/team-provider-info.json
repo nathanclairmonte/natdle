@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-natdle-dev-133517-authRole",
+            "UnauthRoleArn": "arn:aws:iam::283061014149:role/amplify-natdle-dev-133517-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::283061014149:role/amplify-natdle-dev-133517-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-natdle-dev-133517-deployment",
+            "UnauthRoleName": "amplify-natdle-dev-133517-unauthRole",
+            "StackName": "amplify-natdle-dev-133517",
+            "StackId": "arn:aws:cloudformation:us-east-1:283061014149:stack/amplify-natdle-dev-133517/a907df70-b2df-11ed-8369-0a07dd9e764d",
+            "AmplifyAppId": "d21hbmpbnglrf6"
+        },
+        "categories": {
+            "auth": {
+                "natdle5fd4a4ba": {}
+            },
+            "api": {
+                "natdle": {}
+            }
+        }
+    }
+}

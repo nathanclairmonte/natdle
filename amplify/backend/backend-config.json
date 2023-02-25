@@ -1,0 +1,58 @@
+{
+    "api": {
+        "natdle": {
+            "dependsOn": [
+                {
+                    "attributes": ["UserPoolId"],
+                    "category": "auth",
+                    "resourceName": "natdle5fd4a4ba"
+                }
+            ],
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [
+                        {
+                            "apiKeyConfig": {
+                                "apiKeyExpirationDate": "2023-03-01T19:48:35.056Z",
+                                "apiKeyExpirationDays": 7,
+                                "description": "test"
+                            },
+                            "authenticationType": "API_KEY"
+                        },
+                        {
+                            "authenticationType": "AWS_IAM"
+                        }
+                    ],
+                    "defaultAuthentication": {
+                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                        "userPoolConfig": {
+                            "userPoolId": "authnatdle5fd4a4ba"
+                        }
+                    }
+                }
+            },
+            "providerPlugin": "awscloudformation",
+            "service": "AppSync"
+        }
+    },
+    "auth": {
+        "natdle5fd4a4ba": {
+            "customAuth": false,
+            "dependsOn": [],
+            "frontendAuthConfig": {
+                "mfaConfiguration": "OFF",
+                "mfaTypes": ["SMS"],
+                "passwordProtectionSettings": {
+                    "passwordPolicyCharacters": [],
+                    "passwordPolicyMinLength": 8
+                },
+                "signupAttributes": ["EMAIL", "NAME"],
+                "socialProviders": [],
+                "usernameAttributes": [],
+                "verificationMechanisms": ["EMAIL"]
+            },
+            "providerPlugin": "awscloudformation",
+            "service": "Cognito"
+        }
+    }
+}
