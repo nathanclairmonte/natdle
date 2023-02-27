@@ -1,10 +1,16 @@
 import React, { ReactElement, useRef, useState } from "react";
 import { ScrollView, TextInput, Alert } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigatorParams } from "@config/Navigator";
 import { GradientBackground, MyTextInput, MyButton } from "@components";
 import { Auth } from "aws-amplify";
 import styles from "./Login.styles";
 
-export default function Login(): ReactElement {
+type LoginProps = {
+    navigation: NativeStackNavigationProp<StackNavigatorParams, "Login">;
+};
+
+export default function Login({ navigation }: LoginProps): ReactElement {
     const passwordInputRef = useRef<TextInput | null>(null);
     const [form, setForm] = useState({
         username: "test",
@@ -26,12 +32,10 @@ export default function Login(): ReactElement {
         setLoading(true);
         // call cognito api
         const { username, password } = form;
-        console.log(username, password);
         try {
-            const res = await Auth.signIn(username, password);
-            console.log(res);
+            await Auth.signIn(username, password);
+            navigation.navigate("Home");
         } catch (error) {
-            console.log(error);
             Alert.alert("Error!", error.message || "An error has occured!");
         }
         setLoading(false);

@@ -8,7 +8,7 @@ import {
     Amiko_600SemiBold,
     Amiko_700Bold
 } from "@expo-google-fonts/amiko";
-import { Auth } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 import { useAuth } from "@contexts/Auth-context";
 
 type AppBootstrapProps = {
@@ -38,6 +38,33 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
             setAuthLoaded(true);
         };
         checkCurrentUser();
+
+        // function to listen to aws Hub for sign out activity
+        // putting it here bc this useEffect will run only once, and we want the listener
+        // to be run only once as well. Putting it inside AppBootstrap bc it will already be
+        // rendered by the time we want to listen for sign out activity.
+        const hubListener = (hubData: any) => {
+            // function that will be run when the listener fires an event
+            const { data, event } = hubData.payload;
+            switch (event) {
+                case "signOut":
+                    setUser(null);
+                    break;
+                case "signIn":
+                    setUser(data);
+                    break;
+                default:
+                    break;
+            }
+        };
+        Hub.listen("auth", hubListener);
+
+        // also want to unsubscribe from the listener when the component unmounts
+        // we can do this by passing a function to the return of useEffect
+        // as per useEffect functionality, this function will run when comp unmounts
+        return () => {
+            Hub.remove("auth", hubListener);
+        };
     }, []);
 
     useEffect(() => {

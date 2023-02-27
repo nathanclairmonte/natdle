@@ -1,10 +1,11 @@
-import { ScrollView, View, Image } from "react-native";
-import React, { ReactElement } from "react";
+import { ScrollView, View, Image, Alert } from "react-native";
+import React, { ReactElement, useState } from "react";
 import styles from "./Home.styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackNavigatorParams } from "@config/Navigator";
 import { GradientBackground, MyButton, AmikoText } from "@components";
 import { useAuth } from "@contexts/Auth-context";
+import { Auth } from "aws-amplify";
 
 type HomeProps = {
     navigation: NativeStackNavigationProp<StackNavigatorParams, "Home">;
@@ -12,6 +13,7 @@ type HomeProps = {
 
 export default function Home({ navigation }: HomeProps): ReactElement {
     const { user } = useAuth();
+    const [signingOut, setSigningOut] = useState(false);
 
     return (
         <GradientBackground theme="fav">
@@ -25,9 +27,17 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                     />
                     <MyButton style={styles.button} title="MultiPlayer" />
                     <MyButton
-                        onPress={() => {
+                        loading={signingOut}
+                        onPress={async () => {
                             if (user) {
                                 //logout
+                                setSigningOut(true);
+                                try {
+                                    await Auth.signOut();
+                                } catch (error) {
+                                    Alert.alert("Error!", "Error signing out.");
+                                }
+                                setSigningOut(false);
                             } else {
                                 // go to login screen
                                 navigation.navigate("Login");
