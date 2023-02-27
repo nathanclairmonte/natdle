@@ -1,20 +1,22 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { ScrollView, TextInput, Alert, TouchableOpacity } from "react-native";
+import { ScrollView, TextInput, Alert } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackNavigatorParams } from "@config/Navigator";
-import { GradientBackground, MyTextInput, MyButton, AmikoText } from "@components";
+import { GradientBackground, MyTextInput, MyButton } from "@components";
 import { Auth } from "aws-amplify";
-import styles from "./Login.styles";
+import styles from "./Signup.styles";
 
-type LoginProps = {
-    navigation: NativeStackNavigationProp<StackNavigatorParams, "Login">;
+type SignupProps = {
+    navigation: NativeStackNavigationProp<StackNavigatorParams, "Signup">;
 };
 
-export default function Login({ navigation }: LoginProps): ReactElement {
+export default function Signup({ navigation }: SignupProps): ReactElement {
     const passwordInputRef = useRef<TextInput | null>(null);
     const [form, setForm] = useState({
-        username: "test",
-        password: "12345678"
+        name: "",
+        username: "",
+        email: "",
+        password: ""
     });
     const [loading, setLoading] = useState(false);
 
@@ -84,10 +86,6 @@ export default function Login({ navigation }: LoginProps): ReactElement {
                     secureTextEntry={true}
                 />
                 <MyButton loading={loading} title="Login" onPress={login} />
-
-                <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-                    <AmikoText style={styles.signupLink}>Don&apos;t have an account?</AmikoText>
-                </TouchableOpacity>
             </ScrollView>
         </GradientBackground>
     );

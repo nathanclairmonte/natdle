@@ -4,13 +4,14 @@ import {
     createNativeStackNavigator,
     NativeStackNavigationOptions
 } from "@react-navigation/native-stack";
-import { Home, SinglePlayerGame, Settings, Login } from "@screens";
+import { Home, SinglePlayerGame, Settings, Login, Signup } from "@screens";
 
 export type StackNavigatorParams = {
     Home: undefined;
     SinglePlayerGame: undefined;
     Settings: undefined;
     Login: undefined;
+    Signup: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackNavigatorParams>();
@@ -49,6 +50,11 @@ export default function Navigator(): ReactElement {
                     name="Login"
                     component={Login}
                     options={{ headerShadowVisible: false }}
+                />
+                <Stack.Screen
+                    name="Signup"
+                    component={Signup}
+                    options={{ headerShadowVisible: false, title: "Sign Up" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
