@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
     },
     button: {
         marginBottom: 16
+    },
+    loggedInText: {
+        color: "black",
+        textAlign: "center",
+        fontSize: 14
     }
 });
 
