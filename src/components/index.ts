@@ -4,3 +4,4 @@ export { default as GradientBackground } from "./GradientBackground/GradientBack
 export { default as MyButton } from "./MyButton/MyButton";
 export { default as Board } from "./Board/Board";
 export { default as Keyboard } from "./Keyboard/Keyboard";
+export { default as MyTextInput } from "./MyTextInput/MyTextInput";
