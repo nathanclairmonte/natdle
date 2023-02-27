@@ -1,13 +1,5 @@
 import { View, Text } from "react-native";
-import React, {
-    ReactNode,
-    ReactElement,
-    useEffect,
-    useState,
-    createContext,
-    Dispatch,
-    SetStateAction
-} from "react";
+import React, { ReactNode, ReactElement, useEffect, useState } from "react";
 // import AppLoading from "expo-app-loading";
 import * as SplashScreen from "expo-splash-screen";
 import {
@@ -17,19 +9,13 @@ import {
     Amiko_700Bold
 } from "@expo-google-fonts/amiko";
 import { Auth } from "aws-amplify";
+import { useAuth } from "@contexts/Auth-context";
 
 type AppBootstrapProps = {
     children: ReactNode;
 };
 
-type AuthContextType = {
-    user: { [key: string]: any } | null;
-    setUser: Dispatch<SetStateAction<{ [key: string]: any } | null>>;
-};
-
 SplashScreen.preventAutoHideAsync();
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AppBootstrap({ children }: AppBootstrapProps): ReactElement {
     const [fontLoaded] = useFonts({
@@ -38,7 +24,7 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
         Amiko_700Bold
     });
     const [authLoaded, setAuthLoaded] = useState(false);
-    const [user, setUser] = useState<{ [key: string]: any } | null>(null);
+    const { setUser } = useAuth();
 
     useEffect(() => {
         const checkCurrentUser = async () => {
@@ -66,18 +52,7 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
         hideSplashScreen().catch(console.error);
     }, [fontLoaded, authLoaded]);
 
-    return fontLoaded && authLoaded ? (
-        <AuthContext.Provider
-            value={{
-                user: user,
-                setUser: setUser
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    ) : (
-        <>{null}</>
-    );
+    return fontLoaded && authLoaded ? <>{children}</> : <>{null}</>;
 }
 
 // // old way of doing it (from react-native course)
