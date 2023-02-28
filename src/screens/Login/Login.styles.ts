@@ -10,7 +10,15 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 30,
         textDecorationLine: "underline",
-        fontSize: 16
+        fontSize: 20
+    },
+    forgotPasswordLink: {
+        color: "black",
+        textAlign: "right",
+        textDecorationLine: "underline",
+        fontSize: 16,
+        marginTop: -20,
+        marginBottom: 30
     }
 });
 

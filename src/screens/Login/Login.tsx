@@ -71,6 +71,9 @@ export default function Login({ navigation }: LoginProps): ReactElement {
                     style={{ marginBottom: 30 }}
                     secureTextEntry={true}
                 />
+                <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+                    <AmikoText style={styles.forgotPasswordLink}>Forgot password?</AmikoText>
+                </TouchableOpacity>
                 <MyButton loading={loading} title="Login" onPress={login} />
 
                 <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
