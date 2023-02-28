@@ -36,26 +36,14 @@ export default function Login({ navigation }: LoginProps): ReactElement {
             await Auth.signIn(username, password);
             navigation.navigate("Home");
         } catch (error) {
-            Alert.alert("Error!", error.message || "An error has occured!");
+            if (error.code === "UserNotConfirmedException") {
+                navigation.navigate("Signup", { username: username });
+            } else {
+                Alert.alert("Error!", error.message || "An error has occured!");
+            }
         }
         setLoading(false);
     };
-
-    // const tempCreateSingleUser = async () => {
-    //     try {
-    //         const res = await Auth.signUp({
-    //             username: "test",
-    //             password: "12345678",
-    //             attributes: {
-    //                 email: "test@test.com",
-    //                 name: "Mr. Test"
-    //             }
-    //         });
-    //         console.log(res);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     return (
         <GradientBackground theme="spring">
