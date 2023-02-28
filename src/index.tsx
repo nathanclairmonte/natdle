@@ -19,3 +19,6 @@ export default function App(): ReactElement {
         </AuthProvider>
     );
 }
+
+// TODO
+// - Add a "go back home" button when someone wins a game
