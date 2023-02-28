@@ -8,7 +8,7 @@ import { Auth } from "aws-amplify";
 import styles from "./ForgotPassword.styles";
 
 type ForgotPasswordProps = {
-    navigation: NativeStackNavigationProp<StackNavigatorParams, "Signup">;
+    navigation: NativeStackNavigationProp<StackNavigatorParams, "ForgotPassword">;
 };
 
 export default function ForgotPassword({ navigation }: ForgotPasswordProps): ReactElement {
