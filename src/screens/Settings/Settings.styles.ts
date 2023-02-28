@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
     choiceText: {
         color: "black",
         fontSize: 16
+    },
+    changePasswordText: {
+        color: "black",
+        fontSize: 24,
+        textDecorationLine: "underline"
     }
 });
 

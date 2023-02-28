@@ -1,12 +1,22 @@
 import { ScrollView, TouchableOpacity, View, Switch } from "react-native";
 import React, { ReactElement } from "react";
 import { GradientBackground, AmikoText } from "@components";
-import styles from "./Settings.styles";
 import { difficulties, useSettings } from "@contexts/Settings-context";
+import { useAuth } from "@contexts/Auth-context";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigatorParams } from "@config/Navigator";
+import styles from "./Settings.styles";
 
-export default function Settings(): ReactElement | null {
+type SettingsProps = {
+    navigation: NativeStackNavigationProp<StackNavigatorParams, "Settings">;
+};
+
+export default function Settings({ navigation }: SettingsProps): ReactElement | null {
     // get settings from useSettings function we created in Settings-context
     const { settings, updateSetting } = useSettings();
+
+    // get authentication information from Auth-context
+    const { user } = useAuth();
 
     // if the settings are not yet loaded, don't render page yet
     if (!settings) return null;
@@ -76,6 +86,19 @@ export default function Settings(): ReactElement | null {
                         }}
                     />
                 </View>
+
+                {user && (
+                    <TouchableOpacity
+                        style={styles.field}
+                        onPress={() => {
+                            navigation.navigate("ChangePassword");
+                        }}
+                    >
+                        <AmikoText style={styles.changePasswordText} weight="600">
+                            Change Password
+                        </AmikoText>
+                    </TouchableOpacity>
+                )}
             </ScrollView>
         </GradientBackground>
     );
